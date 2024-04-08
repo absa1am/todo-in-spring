@@ -6,8 +6,8 @@
 
     <changeSet id="1" author="Abdus Salam">
         <createTable tableName="tasks">
-            <column name="id" type="BIGINT">
-                <constraints primaryKey="true" />
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
             </column>
 
             <column name="title" type="TEXT">
