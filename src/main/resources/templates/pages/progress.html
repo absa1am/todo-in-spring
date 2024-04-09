@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>My Progress - ToDo</title>
+        <div th:replace="~{layouts/styles :: #styles}"></div>
+    </head>
+    <body>
+        <div th:replace="~{layouts/nav :: #nav}"></div>
+
+        <div class="container">
+            <div class="d-flex flex-column justify-content-center align-items-center mt-3">
+                <div class="h4">My Strength</div>
+                <canvas id="progress" class="w-50 h-50"></canvas>
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+            var total = [[${progress.get('Total')}]];
+            var pending = [[${progress.get('Pending') * 100}]] / total;
+            var processing = [[${progress.get('Processing') * 100}]] / total;
+            var completed = [[${progress.get('Completed') * 100}]] / total;
+            var backlog = [[${progress.get('Backlog') * 100}]] / total;
+
+            var xValues = ["Pending (%)", "Processing (%)", "Completed (%)", "Backlog (%)"];
+            var yValues = [pending, processing, completed, backlog];
+
+            var barColors = [
+                "#e8c3b9",
+                "#2b5797",
+                "#1e7145",
+                "#b91d47"
+            ];
+
+            new Chart("progress", {
+                type: "doughnut",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        backgroundColor: barColors,
+                        data: yValues
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: "Progress Report"
+                    }
+                }});
+        </script>
+    </body>
+</html>
