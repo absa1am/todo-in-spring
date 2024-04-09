@@ -5,7 +5,6 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.LocalDate;
 
@@ -14,7 +13,7 @@ import java.time.LocalDate;
 public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "Title can not be blank.")
@@ -25,12 +24,10 @@ public class Task {
 
     @Column(name = "start_date")
     @NotNull(message = "Start date can not be blank.")
-    @PastOrPresent(message = "Start date must be from past to present.")
     private LocalDate startDate;
 
     @Column(name = "end_date")
     @NotNull(message = "End date can not be blank.")
-    @PastOrPresent(message = "End date must be from present to future.")
     private LocalDate endDate;
 
     @NotNull(message = "Status can not be blank.")

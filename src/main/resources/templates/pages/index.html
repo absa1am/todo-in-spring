@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>My Tasks - ToDO</title>
+        <title>My Tasks - ToDo</title>
         <div th:replace="~{layouts/styles :: #styles}"></div>
     </head>
     <body>
@@ -13,25 +13,27 @@
                 <caption class="text-center text-dark h5">My Tasks</caption>
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Task</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Deadline</th>
-                        <th scope="col">Actions</th>
+                        <th>#</th>
+                        <th>Task</th>
+                        <th>Status</th>
+                        <th>Deadline</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Todo - 1</td>
-                        <td>Pending</td>
-                        <td>April 9, 2024</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-outline-info"><i class="bi bi-eye"></i></a>
-                            <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square"></i></a>
-                            <a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
-                        </td>
-                    </tr>
+                    <th:block th:each="task, id : ${tasks}">
+                        <tr>
+                            <td th:text="${id.index + 1}"></td>
+                            <td th:text="${task.title}"></td>
+                            <td th:text="${task.status.value}"></td>
+                            <td th:text="${#temporals.format(task.endDate, 'MMM dd, yyyy')}"></td>
+                            <td>
+                                <a th:href="@{/task/{id}/view(id=${task.id})}" class="btn btn-sm btn-outline-info"><i class="bi bi-eye"></i></a>
+                                <a th:href="@{/task/{id}/update(id=${task.id})}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square"></i></a>
+                                <a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    </th:block>
                 </tbody>
             </table>
         </div>
