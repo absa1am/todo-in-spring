@@ -9,9 +9,10 @@
         <div th:replace="~{layouts/nav :: #nav}"></div>
 
         <div class="container">
-            <table class="table table-hover caption-top">
-                <caption class="text-center text-dark h5">My Tasks</caption>
-                <thead class="table-dark">
+            <table class="table table-hover">
+                <div class="text-center text-dark h5 mt-3">My Tasks</div>
+                <div th:if="${message}" th:text="${message}" class="alert alert-success" role="alert"></div>
+                <thead class="table-primary">
                     <tr>
                         <th>#</th>
                         <th>Task</th>
@@ -30,7 +31,28 @@
                             <td>
                                 <a th:href="@{/task/{id}/view(id=${task.id})}" class="btn btn-sm btn-outline-info"><i class="bi bi-eye"></i></a>
                                 <a th:href="@{/task/{id}/update(id=${task.id})}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square"></i></a>
-                                <a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                                <a type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="bi bi-trash"></i></a>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="deleteModalLabel">Confirmation message</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure you want to delete ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Go back</button>
+                                                <form id="deleteForm" th:action="@{/task/{id}/delete(id=${task.id})}" th:method="post">
+                                                    <button type="submit" class="btn btn-danger btn-sm">Yes, delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     </th:block>

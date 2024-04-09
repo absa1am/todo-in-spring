@@ -34,6 +34,10 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
+    public void deleteTask(Long id) {
+        taskRepository.deleteById(id);
+    }
+
     public Map<String, Integer> getProgress() {
         var tasks = getTasks();
         Map<String, Integer> progress = new HashMap<>();

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class TaskController {
@@ -45,7 +46,7 @@ public class TaskController {
     }
 
     @PostMapping("/task/create")
-    public String create(Model model, @Valid @ModelAttribute("task") Task task, BindingResult errors) {
+    public String create(Model model, @Valid @ModelAttribute("task") Task task, BindingResult errors, RedirectAttributes redirectAttributes) {
         if (errors.hasErrors()) {
             model.addAttribute("status", Status.values());
 
@@ -53,6 +54,8 @@ public class TaskController {
         }
 
         taskService.createTask(task);
+
+        redirectAttributes.addFlashAttribute("message", "New task created successfully.");
 
         return "redirect:/";
     }
@@ -66,7 +69,7 @@ public class TaskController {
     }
 
     @PostMapping("/task/{id}/update")
-    public String update(Model model, @Valid @ModelAttribute("task") Task task, BindingResult errors) {
+    public String update(Model model, @Valid @ModelAttribute("task") Task task, BindingResult errors, RedirectAttributes redirectAttributes) {
         if (errors.hasErrors()) {
             model.addAttribute("status", Status.values());
 
@@ -74,6 +77,17 @@ public class TaskController {
         }
 
         taskService.updateTask(task);
+
+        redirectAttributes.addFlashAttribute("message", "Task updated successfully.");
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/task/{id}/delete")
+    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        taskService.deleteTask(id);
+
+        redirectAttributes.addFlashAttribute("message", "Task deleted successfully.");
 
         return "redirect:/";
     }
