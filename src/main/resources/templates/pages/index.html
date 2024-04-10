@@ -22,9 +22,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <th:block th:each="task, serial : ${tasks}">
+                    <th:block th:each="task, serial : ${tasks.content}">
                         <tr>
-                            <td th:text="${serial.index + 1}"></td>
+                            <td th:text="${serial.index + 1} + ${currentPage * currentSize}"></td>
                             <td th:text="${task.title}"></td>
                             <td th:text="${task.status.value}"></td>
                             <td th:text="${#temporals.format(task.endDate, 'MMM dd, yyyy')}"></td>
@@ -58,6 +58,26 @@
                     </th:block>
                 </tbody>
             </table>
+            <div aria-label="pagination">
+                <ul th:if="${not tasks.isEmpty}" class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${currentPage <= 0}? 'disabled'">
+                        <a class="page-link" th:href="@{/(page=${currentPage - 1}, size=${currentSize})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <th:block th:each="page : ${#numbers.sequence(0, tasks.totalPages - 1)}">
+                        <li class="page-item" th:classappend="${currentPage == page}? 'active'">
+                            <a class="page-link" th:href="@{/(page=${page}, size=${currentSize})}" th:text="${page + 1}"></a>
+                        </li>
+                    </th:block>
+                    <li class="page-item" th:classappend="${currentPage >= tasks.totalPages - 1}? 'disabled'">
+                        <a class="page-link" th:href="@{/(page=${currentPage + 1}, size=${currentSize})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+                <div th:unless="${not tasks.isEmpty}" class="text-center">No data available</div>
+            </div>
         </div>
     </body>
 </html>

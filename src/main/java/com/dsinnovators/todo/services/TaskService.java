@@ -2,6 +2,8 @@ package com.dsinnovators.todo.services;
 
 import com.dsinnovators.todo.entities.Task;
 import com.dsinnovators.todo.repositories.TaskRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -20,6 +22,10 @@ public class TaskService {
 
     public List<Task> getTasks() {
         return taskRepository.findAll();
+    }
+
+    public Page<Task> getTasks(int page, int size) {
+        return taskRepository.findAll(PageRequest.of(page, size));
     }
 
     public Optional<Task> getTask(Long id) {
