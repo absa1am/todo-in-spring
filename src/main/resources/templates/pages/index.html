@@ -22,19 +22,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <th:block th:each="task, id : ${tasks}">
+                    <th:block th:each="task, serial : ${tasks}">
                         <tr>
-                            <td th:text="${id.index + 1}"></td>
+                            <td th:text="${serial.index + 1}"></td>
                             <td th:text="${task.title}"></td>
                             <td th:text="${task.status.value}"></td>
                             <td th:text="${#temporals.format(task.endDate, 'MMM dd, yyyy')}"></td>
                             <td>
                                 <a th:href="@{/task/{id}/view(id=${task.id})}" class="btn btn-sm btn-outline-info"><i class="bi bi-eye"></i></a>
                                 <a th:href="@{/task/{id}/update(id=${task.id})}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square"></i></a>
-                                <a type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="bi bi-trash"></i></a>
+                                <a type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" th:attr="data-bs-target='#deleteModal' + ${task.id}"><i class="bi bi-trash"></i></a>
 
                                 <!-- Modal -->
-                                <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal fade" th:id="deleteModal+ ${task.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
