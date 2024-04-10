@@ -26,7 +26,20 @@
                         <tr>
                             <td th:text="${serial.index + 1} + ${currentPage * currentSize}"></td>
                             <td th:text="${task.title}"></td>
-                            <td th:text="${task.status.value}"></td>
+                            <td>
+                                <th:block th:if="${task.status.value eq 'Pending'}">
+                                    <span th:text="${task.status.value}" class="badge" style="background-color: darksalmon"></span>
+                                </th:block>
+                                <th:block th:if="${task.status.value eq 'Processing'}">
+                                    <span th:text="${task.status.value}" class="badge" style="background-color: #052c65;"></span>
+                                </th:block>
+                                <th:block th:if="${task.status.value eq 'Backlog'}">
+                                    <span th:text="${task.status.value}" class="badge" style="background-color: #8b0000;"></span>
+                                </th:block>
+                                <th:block th:if="${task.status.value eq 'Completed'}">
+                                    <span th:text="${task.status.value}" class="badge" style="background-color: #0a3622;"></span>
+                                </th:block>
+                            </td>
                             <td th:text="${#temporals.format(task.endDate, 'MMM dd, yyyy')}"></td>
                             <td>
                                 <a th:href="@{/task/{id}/view(id=${task.id})}" class="btn btn-sm btn-outline-info"><i class="bi bi-eye"></i></a>
