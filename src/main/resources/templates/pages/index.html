@@ -22,11 +22,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <th:block th:each="task, serial : ${tasks}">
+                    <th:block th:each="task, serial : ${tasks.content}">
                         <tr>
-                            <td th:text="${serial.index + 1}"></td>
+                            <td th:text="${serial.index + 1} + ${currentPage * currentSize}"></td>
                             <td th:text="${task.title}"></td>
-                            <td th:text="${task.status.value}"></td>
+                            <td>
+                                <th:block th:if="${task.status.value eq 'Pending'}">
+                                    <span th:text="${task.status.value}" class="badge" style="background-color: #ffc107;"></span>
+                                </th:block>
+                                <th:block th:if="${task.status.value eq 'Processing'}">
+                                    <span th:text="${task.status.value}" class="badge" style="background-color: #052c65;"></span>
+                                </th:block>
+                                <th:block th:if="${task.status.value eq 'Backlog'}">
+                                    <span th:text="${task.status.value}" class="badge" style="background-color: #8b0000;"></span>
+                                </th:block>
+                                <th:block th:if="${task.status.value eq 'Completed'}">
+                                    <span th:text="${task.status.value}" class="badge" style="background-color: #0a3622;"></span>
+                                </th:block>
+                            </td>
                             <td th:text="${#temporals.format(task.endDate, 'MMM dd, yyyy')}"></td>
                             <td>
                                 <a th:href="@{/task/{id}/view(id=${task.id})}" class="btn btn-sm btn-outline-info"><i class="bi bi-eye"></i></a>
@@ -58,6 +71,26 @@
                     </th:block>
                 </tbody>
             </table>
+            <div aria-label="pagination">
+                <ul th:if="${not tasks.isEmpty}" class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${currentPage <= 0}? 'disabled'">
+                        <a class="page-link" th:href="@{/(page=${currentPage - 1}, size=${currentSize})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <th:block th:each="page : ${#numbers.sequence(0, tasks.totalPages - 1)}">
+                        <li class="page-item" th:classappend="${currentPage == page}? 'active'">
+                            <a class="page-link" th:href="@{/(page=${page}, size=${currentSize})}" th:text="${page + 1}"></a>
+                        </li>
+                    </th:block>
+                    <li class="page-item" th:classappend="${currentPage >= tasks.totalPages - 1}? 'disabled'">
+                        <a class="page-link" th:href="@{/(page=${currentPage + 1}, size=${currentSize})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+                <div th:unless="${not tasks.isEmpty}" class="text-center">No data available</div>
+            </div>
         </div>
     </body>
 </html>

@@ -20,8 +20,13 @@ public class TaskController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("tasks", taskService.getTasks());
+    public String index(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
+        page = (page < 0)? 0 : page;
+        size = (size < 1)? 1 : size;
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("currentSize", size);
+        model.addAttribute("tasks", taskService.getTasks(page, size));
 
         return "pages/index";
     }
