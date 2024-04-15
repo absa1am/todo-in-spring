@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Error 500 - ToDo</title>
+        <div th:replace="~{layouts/styles :: #styles}"></div>
+    </head>
+    <body>
+        <div class="container">
+            <div class="d-flex flex-column justify-content-center align-items-center min-vh-100">
+                <p class="text-danger display-1">500</p>
+                <p class="text-secondary h5">Sorry, we can't process your request right now.</p>
+                <p class="text-secondary h6">Please, go back to <a th:href="@{/}" class="fw-bolder fst-italic">home</a> page or try again later.</p>
+            </div>
+        </div>
+    </body>
+</html>

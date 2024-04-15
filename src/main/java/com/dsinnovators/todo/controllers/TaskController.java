@@ -10,6 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Optional;
+
 @Controller
 public class TaskController {
 
@@ -37,6 +39,8 @@ public class TaskController {
 
         if (task.isPresent()) {
             model.addAttribute("task", task.get());
+        } else {
+            return "error/404";
         }
 
         return "pages/view";
@@ -67,7 +71,13 @@ public class TaskController {
 
     @GetMapping("/task/{id}/update")
     public String update(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("task", taskService.getTask(id).get());
+        Optional<Task> task = taskService.getTask(id);
+
+        if (task.isEmpty()) {
+            return "error/404";
+        }
+
+        model.addAttribute("task", task.get());
         model.addAttribute("status", Status.values());
 
         return "pages/update";
