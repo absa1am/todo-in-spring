@@ -26,13 +26,13 @@
 
                     <div class="mb-3">
                         <label for="startDate" class="form-label">Start Date</label>
-                        <input type="date" th:field="*{startDate}" class="form-control" id="startDate" />
+                        <input type="date" th:value="*{startDate}" th:field="*{startDate}" class="form-control" id="startDate" />
                         <div class="form-text text-danger" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></div>
                     </div>
 
                     <div class="mb-3">
                         <label for="endDate" class="form-label">End Date</label>
-                        <input type="date" th:field="*{endDate}" class="form-control" id="endDate" />
+                        <input type="date" th:value="*{endDate}" th:field="*{endDate}" class="form-control" id="endDate" />
                         <div class="form-text text-danger" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></div>
                     </div>
 
