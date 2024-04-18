@@ -1,11 +1,14 @@
 package com.dsinnovators.todo.services;
 
 import com.dsinnovators.todo.entities.Task;
+import com.dsinnovators.todo.helpers.CSVHelper;
 import com.dsinnovators.todo.repositories.TaskRepository;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +65,12 @@ public class TaskService {
         }
 
         return progress;
+    }
+
+    public InputStreamResource loadCsv() throws IOException {
+        List<Task> tasks = getTasks();
+
+        return new InputStreamResource(CSVHelper.writeCsv(tasks));
     }
 
 }
