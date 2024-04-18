@@ -4,12 +4,17 @@ import com.dsinnovators.todo.entities.Task;
 import com.dsinnovators.todo.enums.Status;
 import com.dsinnovators.todo.services.TaskService;
 import jakarta.validation.Valid;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Controller
@@ -105,6 +110,15 @@ public class TaskController {
         redirectAttributes.addFlashAttribute("message", "Task deleted successfully.");
 
         return "redirect:/";
+    }
+
+    @GetMapping("/download")
+    public ResponseEntity<Resource> download() throws IOException {
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=tasks.csv")
+                .contentType(MediaType.parseMediaType("application/csv"))
+                .body(taskService.loadCsv());
     }
 
 }
